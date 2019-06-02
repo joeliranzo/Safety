@@ -21,9 +21,9 @@ namespace Safety.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Users> Get()
+        public IEnumerable<Member> Get()
         {
-            return context.Users.ToList();
+            return context.Member.ToList();
         }
 
         // GET api/users/GetById/2
@@ -36,9 +36,9 @@ namespace Safety.Controllers
         [Route("[action]/{id}")]
         [HttpGet]
         //[HttpGet("{id}")]
-        public Users GetById(int id)
+        public Member GetById(int id)
         {
-            return context.Users.Find(id);
+            return context.Member.Find(id);
         }
 
         // GET api/users/GetByEmployNumber/50747
@@ -50,9 +50,9 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{EmployNumber}")]
         [HttpGet]
-        public Users GetByEmployNumber(string EmployNumber)
+        public Member GetByEmployNumber(string EmployNumber)
         {
-            return context.Users
+            return context.Member
                 .Where(w => w.EmployNumber == EmployNumber)
                 .FirstOrDefault();
         }
@@ -63,14 +63,14 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="user"></param>
         [HttpPost]
-        public void Post([FromBody]Users user)
+        public void Post([FromBody]Member user)
         {
             //El usuario se envía por referencia.
             //Ya que se le puede reajustar varios parametros.
             //Se envía a preparar el usuario.
             PrepareUser(ref user);
 
-            context.Users.Add(user);
+            context.Member.Add(user);
             context.SaveChanges();
         }
 
@@ -81,9 +81,9 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="newuser"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Users newuser)
+        public void Put(int id, [FromBody]Member newuser)
         {
-            Users user = context.Users
+            Member user = context.Member
                 .Find(id);
             //El usuario se envía por referencia.
             //Ya que se le puede reajustar varios parametros.
@@ -96,7 +96,7 @@ namespace Safety.Controllers
             user.SurName = newuser.SurName;
             user.Email = newuser.Email;
 
-            context.Users.Update(user);
+            context.Member.Update(user);
             context.SaveChanges();
         }
 
@@ -108,10 +108,10 @@ namespace Safety.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Users user = context.Users
+            Member user = context.Member
                 .Find(id);
 
-            context.Users.Remove(user);
+            context.Member.Remove(user);
             context.SaveChanges();
         }
 
@@ -124,7 +124,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private bool PrepareUser(ref Users user)
+        private bool PrepareUser(ref Member user)
         {
             //int employNumber;
             Dictionary<int, string> validations = new Dictionary<int, string>();

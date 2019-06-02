@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model2\**" />
+    <Content Remove="Model2\**" />
+    <EmbeddedResource Remove="Model2\**" />
+    <None Remove="Model2\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

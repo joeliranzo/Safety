@@ -21,9 +21,9 @@ namespace Safety.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Accounts> Get()
+        public IEnumerable<Account> Get()
         {
-            return context.Accounts.ToList();
+            return context.Account.ToList();
         }
 
         // GET api/accounts/GetById/2
@@ -36,9 +36,9 @@ namespace Safety.Controllers
         [Route("[action]/{id}")]
         [HttpGet]
         //[HttpGet("{id}")]
-        public Accounts GetById(int id)
+        public Account GetById(int id)
         {
-            return context.Accounts.Find(id);
+            return context.Account.Find(id);
         }
 
         // GET api/accounts/GetByUserName/joliranzo
@@ -50,9 +50,9 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{UserName}")]
         [HttpGet]
-        public Accounts GetByUserName(string UserName)
+        public Account GetByUserName(string UserName)
         {
-            return context.Accounts
+            return context.Account
                 .Where(w => w.UserName == UserName)
                 .FirstOrDefault();
         }
@@ -63,10 +63,10 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="account"></param>
         [HttpPost]
-        public void Post([FromBody]Accounts account)
+        public void Post([FromBody]Account account)
         {
-            Users user = context.Users.Find(account.Iduser);
-            Accounts pAccount = context.Accounts
+            Member user = context.Member.Find(account.Iduser);
+            Account pAccount = context.Account
                 .Where(w => w.Iduser == account.Iduser)
                 .FirstOrDefault();
 
@@ -86,7 +86,7 @@ namespace Safety.Controllers
             //Encrypt password with MD5.
             account.Password = MD5Hash.EncryptPassword(account.Password);
 
-            context.Accounts.Add(account);
+            context.Account.Add(account);
             context.SaveChanges();
         }
 
@@ -97,9 +97,9 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="newaccount"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Accounts newaccount)
+        public void Put(int id, [FromBody]Account newaccount)
         {
-            Accounts account = context.Accounts
+            Account account = context.Account
                 .Find(id);
             
             if(account == null)
@@ -119,7 +119,7 @@ namespace Safety.Controllers
             account.Password = MD5Hash.EncryptPassword(newaccount.Password);
 
             //Updating the Account
-            context.Accounts.Update(account);
+            context.Account.Update(account);
             context.SaveChanges();
         }
 
@@ -131,7 +131,7 @@ namespace Safety.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            Accounts account = context.Accounts
+            Account account = context.Account
                 .Find(id);
 
             if (account == null)
@@ -139,7 +139,7 @@ namespace Safety.Controllers
                 //Return error, account not found.
             }
 
-            context.Accounts.Remove(account);
+            context.Account.Remove(account);
             context.SaveChanges();
         }
 
@@ -151,7 +151,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        private bool PrepareAccount(ref Accounts account)
+        private bool PrepareAccount(ref Account account)
         {
             Dictionary<int, string> validations = new Dictionary<int, string>();
 
