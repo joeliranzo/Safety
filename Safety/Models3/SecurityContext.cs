@@ -10,7 +10,6 @@ namespace Safety.Models
         public virtual DbSet<AccountApplicationRole> AccountApplicationRole { get; set; }
         public virtual DbSet<Application> Application { get; set; }
         public virtual DbSet<Area> Area { get; set; }
-        public virtual DbSet<CentroCoste> CentroCoste { get; set; }
         public virtual DbSet<Member> Member { get; set; }
         public virtual DbSet<Role> Role { get; set; }
 
@@ -124,38 +123,6 @@ namespace Safety.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Iddependency).HasColumnName("iddependency");
-
-                entity.HasOne(d => d.IddependencyNavigation)
-                    .WithMany(p => p.Area)
-                    .HasForeignKey(d => d.Iddependency)
-                    .HasConstraintName("FK__Area__iddependen__3F115E1A");
-            });
-
-            modelBuilder.Entity<CentroCoste>(entity =>
-            {
-                entity.ToTable("CentroCoste", "Authentication");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Datbi)
-                    .HasColumnName("DATBI")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Descripcion).HasMaxLength(255);
-
-                entity.Property(e => e.Kokrs).HasColumnName("KOKRS");
-
-                entity.Property(e => e.Mandt).HasColumnName("MANDT");
-
-                entity.Property(e => e.Mctxt)
-                    .HasColumnName("MCTXT")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.ShortDescription).HasMaxLength(255);
-
-                entity.Property(e => e.Spras)
-                    .HasColumnName("SPRAS")
-                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Member>(entity =>
@@ -184,8 +151,6 @@ namespace Safety.Models
                     .HasMaxLength(40)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Idarea).HasColumnName("idarea");
-
                 entity.Property(e => e.Ipphone)
                     .HasColumnName("ipphone")
                     .HasMaxLength(15)
@@ -194,11 +159,6 @@ namespace Safety.Models
                 entity.Property(e => e.SurName)
                     .HasMaxLength(40)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.IdareaNavigation)
-                    .WithMany(p => p.Member)
-                    .HasForeignKey(d => d.Idarea)
-                    .HasConstraintName("FK__Member__idarea__3B40CD36");
             });
 
             modelBuilder.Entity<Role>(entity =>

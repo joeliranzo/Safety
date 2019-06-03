@@ -10,9 +10,13 @@
 
   <ItemGroup>
     <Compile Remove="Model2\**" />
+    <Compile Remove="Models3\**" />
     <Content Remove="Model2\**" />
+    <Content Remove="Models3\**" />
     <EmbeddedResource Remove="Model2\**" />
+    <EmbeddedResource Remove="Models3\**" />
     <None Remove="Model2\**" />
+    <None Remove="Models3\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>

@@ -75,7 +75,7 @@ namespace Safety.Controllers
             {
                 //Return error, the user have an account
                 //Or the account to create don't have an user created.
-                Console.WriteLine("Fallo");
+                return;
             }
 
             //La cuenta se envía por referencia.
@@ -86,8 +86,18 @@ namespace Safety.Controllers
             //Encrypt password with MD5.
             account.Password = MD5Hash.EncryptPassword(account.Password);
 
-            context.Account.Add(account);
-            context.SaveChanges();
+            //Setting Creation Date.
+            account.CreationDate = DateTime.Now;
+
+            try
+            {
+                context.Account.Add(account);
+                context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         // PUT api/accounts/5
@@ -105,6 +115,7 @@ namespace Safety.Controllers
             if(account == null)
             {
                 //Return error, account not found.
+                return;
             }
 
             //Setting new values of the account.
@@ -118,9 +129,16 @@ namespace Safety.Controllers
             //Encrypt password with MD5.
             account.Password = MD5Hash.EncryptPassword(newaccount.Password);
 
-            //Updating the Account
-            context.Account.Update(account);
-            context.SaveChanges();
+            try
+            {
+                //Updating the Account
+                context.Account.Update(account);
+                context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         // DELETE api/accounts/5
@@ -137,10 +155,49 @@ namespace Safety.Controllers
             if (account == null)
             {
                 //Return error, account not found.
+                return;
             }
 
-            context.Account.Remove(account);
-            context.SaveChanges();
+            try
+            {
+                context.Account.Remove(account);
+                context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                
+            }
+        }
+
+
+        // DELETE api/accounts/DeleteByUserName/username
+        /// <summary>
+        /// Con este método se puede eliminar una cuenta.
+        /// </summary>
+        /// <param name="username"></param>
+        [Route("[action]/{UserName}")]
+        [HttpDelete]
+        public void DeleteByUserName(string username)
+        {
+            Account account = (from data in context.Account
+                               where data.UserName == username
+                               select data).FirstOrDefault();
+
+            if (account == null)
+            {
+                //Return error, account not found.
+                return;
+            }
+
+            try
+            {
+                context.Account.Remove(account);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         /// <summary>

@@ -70,8 +70,15 @@ namespace Safety.Controllers
             //Se envía a preparar el usuario.
             PrepareUser(ref user);
 
-            context.Member.Add(user);
-            context.SaveChanges();
+            try
+            {
+                context.Member.Add(user);
+                context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         // PUT api/users/5
@@ -79,25 +86,30 @@ namespace Safety.Controllers
         /// Con este método se puede modificar un usuario
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="newuser"></param>
+        /// <param name="updatedUser"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Member newuser)
+        public void Put(int id, [FromBody]Member updatedUser)
         {
             Member user = context.Member
                 .Find(id);
-            //El usuario se envía por referencia.
-            //Ya que se le puede reajustar varios parametros.
-            //Se envía a preparar el usuario.
-            //PrepareUser(ref user);
 
-            user.EmployNumber = newuser.EmployNumber;
-            user.Ipphone = newuser.Ipphone;
-            user.FirstName = newuser.FirstName;
-            user.SurName = newuser.SurName;
-            user.Email = newuser.Email;
+            if (user == null) return;
 
-            context.Member.Update(user);
-            context.SaveChanges();
+            user.EmployNumber = updatedUser.EmployNumber;
+            user.Ipphone = updatedUser.Ipphone;
+            user.FirstName = updatedUser.FirstName;
+            user.SurName = updatedUser.SurName;
+            user.Email = updatedUser.Email;
+
+            try
+            {
+                context.Member.Update(user);
+                context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         // DELETE api/users/5
@@ -111,8 +123,44 @@ namespace Safety.Controllers
             Member user = context.Member
                 .Find(id);
 
-            context.Member.Remove(user);
-            context.SaveChanges();
+            if (user == null) return;
+
+            try
+            {
+                context.Member.Remove(user);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+
+        // DELETE api/users/DeleteByEmployNumber/50001
+        /// <summary>
+        /// Con este método se puede eliminar un usuario
+        /// </summary>
+        /// <param name="EmployNumber"></param>
+        [Route("[action]/{EmployNumber}")]
+        [HttpDelete]
+        public void DeleteByEmployNumber(string EmployNumber)
+        {
+            Member user = (from data in context.Member
+                           where data.EmployNumber == EmployNumber
+                           select data).FirstOrDefault();
+
+            if (user == null) return;
+
+            try
+            {
+                context.Member.Remove(user);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
 
@@ -126,6 +174,8 @@ namespace Safety.Controllers
         /// <returns></returns>
         private bool PrepareUser(ref Member user)
         {
+            //This method need be more extensible.
+
             //int employNumber;
             Dictionary<int, string> validations = new Dictionary<int, string>();
 
@@ -134,12 +184,6 @@ namespace Safety.Controllers
 
             //Remove extra spaces from Employ Number
             user.EmployNumber = user.EmployNumber.Trim();
-
-            //
-            
-            //x = (int.TryParse(user.EmployNumber, out employNumber))
-            //    ? ""
-            //    : "";
 
 
             return true;

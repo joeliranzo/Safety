@@ -11,9 +11,7 @@ namespace Safety.Models
         public string FirstName { get; set; }
         public string SurName { get; set; }
         public string Email { get; set; }
-        public int? Idarea { get; set; }
 
-        public Area IdareaNavigation { get; set; }
         public Account Account { get; set; }
     }
 }
