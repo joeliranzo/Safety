@@ -14,12 +14,12 @@ namespace Safety.Models
         public string UserName { get; set; }
         public string Password { get; set; }
         public int Status { get; set; }
-        public int Idmember { get; set; }
-        public bool IsSuperUser { get; set; }
+        public int Iduser { get; set; }
+        public bool IsManager { get; set; }
         public DateTime? CreationDate { get; set; }
         public DateTime? ExpirationDate { get; set; }
 
-        public Member IdmemberNavigation { get; set; }
+        public Member IduserNavigation { get; set; }
         public ICollection<AccountApplicationRole> AccountApplicationRole { get; set; }
     }
 }

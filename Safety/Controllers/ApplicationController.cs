@@ -13,15 +13,6 @@ namespace Safety.Controllers
     [Route("api/[controller]")]
     public class ApplicationController : BaseController
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         ///GET api/application
         /// <summary>
         /// Con este metodo se puede obtener todas las aplicaciones.

@@ -13,15 +13,6 @@ namespace Safety.Controllers
     [Route("api/[controller]")]
     public class AccountsRolesController : BaseController
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         // GET api/accountsroles
         /// <summary>
         /// Con este método se pueude obtener un listado de toda la relacion de las cuentas y los roles

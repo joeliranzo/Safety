@@ -65,9 +65,9 @@ namespace Safety.Controllers
         [HttpPost]
         public void Post([FromBody]Account account)
         {
-            Member user = context.Member.Find(account.Iduser);
+            Member user = context.Member.Find(account.Idmember);
             Account pAccount = context.Account
-                .Where(w => w.Iduser == account.Iduser)
+                .Where(w => w.Idmember == account.Idmember)
                 .FirstOrDefault();
 
             //Initial and Fundamental validation
@@ -121,8 +121,7 @@ namespace Safety.Controllers
             //Setting new values of the account.
             account.UserName = newaccount.UserName;
             account.Status = newaccount.Status;
-            account.Iduser = newaccount.Iduser;
-            account.IsManager = newaccount.IsManager;
+            account.Idmember = newaccount.Idmember;
             account.CreationDate = newaccount.CreationDate;
             account.ExpirationDate = newaccount.ExpirationDate;
 

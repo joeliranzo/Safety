@@ -11,13 +11,10 @@ namespace Safety.Models
         public virtual DbSet<Application> Application { get; set; }
         public virtual DbSet<Area> Area { get; set; }
         public virtual DbSet<CentroCoste> CentroCoste { get; set; }
-        public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Member> Member { get; set; }
-        public virtual DbSet<MemberArea> MemberArea { get; set; }
         public virtual DbSet<Role> Role { get; set; }
 
         // Unable to generate entity type for table 'Authentication.Duplicates#'. Please see the warning messages.
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -25,7 +22,7 @@ namespace Safety.Models
                 optionsBuilder.UseSqlServer(Startup.ConnectionString);
 
                 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                //                optionsBuilder.UseSqlServer(@"Server=.\SQLExpress;Database=Security;Trusted_Connection=True;");
+                //optionsBuilder.UseSqlServer(@"Server=.\SQLExpress;Database=Security;Trusted_Connection=True;");
             }
         }
 
@@ -35,7 +32,7 @@ namespace Safety.Models
             {
                 entity.ToTable("Account", "Authentication");
 
-                entity.HasIndex(e => e.Idmember)
+                entity.HasIndex(e => e.Iduser)
                     .HasName("UQ_iduser")
                     .IsUnique();
 
@@ -49,7 +46,7 @@ namespace Safety.Models
 
                 entity.Property(e => e.ExpirationDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Idmember).HasColumnName("idmember");
+                entity.Property(e => e.Iduser).HasColumnName("iduser");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -61,9 +58,9 @@ namespace Safety.Models
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdmemberNavigation)
+                entity.HasOne(d => d.IduserNavigation)
                     .WithOne(p => p.Account)
-                    .HasForeignKey<Account>(d => d.Idmember)
+                    .HasForeignKey<Account>(d => d.Iduser)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Accounts__iduser__46E78A0C");
             });
@@ -160,95 +157,6 @@ namespace Safety.Models
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.ToTable("Employee", "Authentication");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Birthday).HasMaxLength(12);
-
-                entity.Property(e => e.DateEntry).HasMaxLength(12);
-
-                entity.Property(e => e.DateEntry2).HasColumnType("date");
-
-                entity.Property(e => e.Department).HasMaxLength(100);
-
-                entity.Property(e => e.Descripcion)
-                    .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FullName).HasMaxLength(150);
-
-                entity.Property(e => e.Funcion).HasMaxLength(100);
-
-                entity.Property(e => e.FunctionId).HasColumnName("FunctionID");
-
-                entity.Property(e => e.Generate).HasColumnName("generate");
-
-                entity.Property(e => e.HorarioId)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.IEmployeeNum).HasColumnName("iEmployeeNum");
-
-                entity.Property(e => e.IdCentral)
-                    .HasColumnName("ID_Central")
-                    .HasColumnType("numeric(12, 0)");
-
-                entity.Property(e => e.Identification).HasMaxLength(15);
-
-                entity.Property(e => e.LastName).HasMaxLength(30);
-
-                entity.Property(e => e.Mail)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Mail2)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Modificacion).HasColumnType("datetime");
-
-                entity.Property(e => e.Movil)
-                    .HasMaxLength(11)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Name).HasMaxLength(80);
-
-                entity.Property(e => e.OldDescriptionPosition).HasMaxLength(100);
-
-                entity.Property(e => e.OldFuncion).HasMaxLength(100);
-
-                entity.Property(e => e.OldPositionId)
-                    .HasColumnName("OldPositionID")
-                    .HasColumnType("nchar(10)");
-
-                entity.Property(e => e.Position).HasMaxLength(100);
-
-                entity.Property(e => e.PositionId).HasColumnName("PositionID");
-
-                entity.Property(e => e.PositionIdold)
-                    .HasColumnName("PositionIDOld")
-                    .HasColumnType("nchar(10)");
-
-                entity.Property(e => e.SapNv).HasColumnName("SAP_NV");
-
-                entity.Property(e => e.Segundoapellido).HasMaxLength(30);
-
-                entity.Property(e => e.Sexo).HasColumnType("char(1)");
-
-                entity.Property(e => e.StatusSap).HasColumnName("StatusSAP");
-
-                entity.Property(e => e.SubdivisiónDePersonal)
-                    .HasColumnName("Subdivisión de personal")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.TextoCentroCoste)
-                    .HasColumnName("Texto centro coste")
-                    .HasMaxLength(100);
-            });
-
             modelBuilder.Entity<Member>(entity =>
             {
                 entity.ToTable("Member", "Authentication");
@@ -275,6 +183,8 @@ namespace Safety.Models
                     .HasMaxLength(40)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Idarea).HasColumnName("idarea");
+
                 entity.Property(e => e.Ipphone)
                     .HasColumnName("ipphone")
                     .HasMaxLength(15)
@@ -283,34 +193,11 @@ namespace Safety.Models
                 entity.Property(e => e.SurName)
                     .HasMaxLength(40)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<MemberArea>(entity =>
-            {
-                entity.ToTable("MemberArea", "Authentication");
-
-                entity.HasIndex(e => new { e.IsManager, e.Idarea })
-                    .HasName("UQ_IsManager")
-                    .IsUnique()
-                    .HasFilter("([IsManager]=(1))");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Idarea).HasColumnName("idarea");
-
-                entity.Property(e => e.Idmember).HasColumnName("idmember");
 
                 entity.HasOne(d => d.IdareaNavigation)
-                    .WithMany(p => p.MemberArea)
+                    .WithMany(p => p.Member)
                     .HasForeignKey(d => d.Idarea)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MemberAre__idare__76619304");
-
-                entity.HasOne(d => d.IdmemberNavigation)
-                    .WithMany(p => p.MemberArea)
-                    .HasForeignKey(d => d.Idmember)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__MemberAre__idmem__756D6ECB");
+                    .HasConstraintName("FK__Member__idarea__3B40CD36");
             });
 
             modelBuilder.Entity<Role>(entity =>

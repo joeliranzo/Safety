@@ -22,10 +22,8 @@ namespace Safety.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Startup.ConnectionString);
-
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                //                optionsBuilder.UseSqlServer(@"Server=.\SQLExpress;Database=Security;Trusted_Connection=True;");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer(@"Server=.\SQLExpress;Database=Security;Trusted_Connection=True;");
             }
         }
 
@@ -288,11 +286,6 @@ namespace Safety.Models
             modelBuilder.Entity<MemberArea>(entity =>
             {
                 entity.ToTable("MemberArea", "Authentication");
-
-                entity.HasIndex(e => new { e.IsManager, e.Idarea })
-                    .HasName("UQ_IsManager")
-                    .IsUnique()
-                    .HasFilter("([IsManager]=(1))");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 

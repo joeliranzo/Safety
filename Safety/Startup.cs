@@ -4,9 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Safety.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Safety
 {
@@ -34,6 +37,17 @@ namespace Safety
         {
             services.AddMvc();
 
+
+            //Configuring Swagger
+            services.AddSwaggerGen(w =>
+            {
+                w.SwaggerDoc("v1", new Info {Title="Security API", Description="Security Core Api" });
+
+                var xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + @"Safety.xml";
+
+                w.IncludeXmlComments(xmlPath);
+            });
+
             //services.AddDbContext<SecurityContext>(options => 
             //options.UseSqlServer(Configuration.GetConnectionString("SecurityConnection")));
         }
@@ -51,6 +65,14 @@ namespace Safety
             //ConnectionString = Configuration.GetConnectionString("SecurityConnection");
             //ConnectionString = Configuration["ConnectionStrings:SecurityConnection"];
             ConnectionString = Configuration["Logging:ConnectionStrings:SecurityConnection"];
+
+
+            //Configuring Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI( w =>
+            {
+                w.SwaggerEndpoint("/swagger/v1/swagger.json", "Core API");
+            });
         }
 
 

@@ -13,7 +13,7 @@ namespace Safety.Controllers
     /// Aquí se gestionan todos los usuarios.
     /// </summary>
     [Route("api/[controller]")]
-    public class UsersController : BaseController
+    public class MembersController : BaseController
     {
         // GET api/users
         /// <summary>

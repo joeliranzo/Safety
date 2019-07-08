@@ -7,7 +7,7 @@ namespace Safety.Models
     {
         public Area()
         {
-            MemberArea = new HashSet<MemberArea>();
+            Member = new HashSet<Member>();
         }
 
         public int? Id { get; set; }
@@ -15,6 +15,6 @@ namespace Safety.Models
         public int? Iddependency { get; set; }
 
         public CentroCoste IddependencyNavigation { get; set; }
-        public ICollection<MemberArea> MemberArea { get; set; }
+        public ICollection<Member> Member { get; set; }
     }
 }
