@@ -57,6 +57,76 @@ namespace Safety.Controllers
                 .FirstOrDefault();
         }
 
+        // GET api/users/GetMembersByArea/2
+        /// <summary>
+        /// Devuelve todos los empleados vinculados a un area.
+        /// </summary>
+        /// <returns></returns>
+        [Route("[action]/{idArea}")]
+        [HttpGet]
+        public IEnumerable<Member> GetMembersByArea(int idArea)
+        {
+            var membersByArea =
+                context.MemberArea
+                .Where(w => w.Idarea == idArea).Select(w => w.Idmember)
+                .ToList();
+
+            return context.Member
+                .Where(w => membersByArea.Contains((int)w.Id));
+        }
+
+
+        // GET api/users/GetAllManagers
+        /// <summary>
+        /// Devuelve todos los encargados.
+        /// </summary>
+        /// <returns></returns>
+        [Route("[action]")]
+        [HttpGet]
+        public IEnumerable<Member> GetAllManagers()
+        {
+            var membersByArea =
+                context.MemberArea
+                .Where(w => w.IsManager == true).Select(w => w.Idmember)
+                .ToList();
+
+            return context.Member
+                .Where(w => membersByArea.Contains((int)w.Id));
+        }
+
+        // GET api/users/GetMemberArea/747
+        /// <summary>
+        /// Devuelve el/las area/s de un miembro
+        /// </summary>
+        /// <returns></returns>
+        [Route("[action]/{idMember}")]
+        [HttpGet]
+        public IEnumerable<MemberArea> GetMemberAreaForMember(int idMember)
+        {
+            return context.MemberArea
+                .Where(w => w.Idmember == idMember)
+                .ToList();
+        }
+
+        // GET api/users/GetManagerForArea/747
+        /// <summary>
+        /// Devuelve el encargado de un area.
+        /// </summary>
+        /// <returns></returns>
+        [Route("[action]/{idArea}")]
+        [HttpGet]
+        public Member GetManagerForArea(int idArea)
+        {
+            var idMember =
+                context.MemberArea
+                .Where(w => w.Idarea == idArea && w.IsManager == true)
+                .Select(w => w.Idmember).FirstOrDefault();
+
+            return context.Member
+                .Where(w => w.Id == idMember)
+                .FirstOrDefault();
+        }
+
         // POST api/users
         /// <summary>
         /// Con este método se puede crear un nuevo usuario
