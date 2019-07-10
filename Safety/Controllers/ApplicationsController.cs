@@ -11,7 +11,7 @@ namespace Safety.Controllers
     /// 
     /// </summary>
     [Route("api/[controller]")]
-    public class ApplicationController : BaseController
+    public class ApplicationsController : BaseController
     {
         ///GET api/application
         /// <summary>

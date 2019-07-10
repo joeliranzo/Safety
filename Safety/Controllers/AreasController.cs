@@ -8,8 +8,9 @@ using Safety.Models;
 namespace Safety.Controllers
 {
     /// <summary>
-    /// 
+    /// Controlador para Areas
     /// </summary>
+    [Route("api/[controller]")]
     public class AreasController : BaseController
     {
         ///GET api/area
@@ -25,7 +26,7 @@ namespace Safety.Controllers
 
         // GET api/area/GetById/2
         /// <summary>
-        /// 
+        /// Con este metodo se puede obtener un area, dado su Id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -34,6 +35,32 @@ namespace Safety.Controllers
         public Area GetById(int id)
         {
             return context.Area.Find(id);
+        }
+
+        // GET api/area/GetAllAreasOfDependency/89
+        /// <summary>
+        /// Con este metodo se puede obtener todas las areas de una dependencia.
+        /// </summary>
+        /// <param name="idDependency"></param>
+        /// <returns></returns>
+        [Route("[action]/{idDependency}")]
+        [HttpGet]
+        public IEnumerable<Area> GetAllAreasOfDependency(int idDependency)
+        {
+            return context.Area.Where(w=>w.Iddependency == idDependency).ToList();
+        }
+
+        // GET api/area/GetAreaByName/Tecnologia
+        /// <summary>
+        /// Con este metodo se puede obtener todas las areas de una dependencia.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [Route("[action]/{name}")]
+        [HttpGet]
+        public Area GetAreaByName(string name)
+        {
+            return context.Area.Where(w => w.Description == name).FirstOrDefault();
         }
 
         // POST api/area
@@ -83,7 +110,7 @@ namespace Safety.Controllers
 
             }
         }
-        
+
         // DELETE api/area/3
         /// <summary>
         /// Con este método se puede eliminar una aplicacion.
@@ -91,7 +118,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         [HttpDelete("{id}")]
         public void Delete(int id)
-        { 
+        {
             Area area = context.Area
                 .Find(id);
 
@@ -117,5 +144,6 @@ namespace Safety.Controllers
 
             return true;
         }
+
     }
 }

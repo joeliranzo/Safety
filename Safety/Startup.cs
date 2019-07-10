@@ -13,15 +13,28 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Safety
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
         /* START CODE FOR CONNECTION STRING */
+        /// <summary>
+        /// 
+        /// </summary>
         public IConfigurationRoot Configuration{ get; set; }
         //public IConfiguration Configuration { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string ConnectionString{ get; private set; }
 
         //public Startup(IConfiguration configuration)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IHostingEnvironment configuration)
         {
             //Configuration = configuration;
@@ -33,17 +46,20 @@ namespace Safety
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-
+            
             //Configuring Swagger
             services.AddSwaggerGen(w =>
             {
                 w.SwaggerDoc("v1", new Info {Title="Security API", Description="Security Core Api" });
 
-                var xmlPath = System.AppDomain.CurrentDomain.BaseDirectory + @"Safety.xml";
+                var xmlPath = AppDomain.CurrentDomain.BaseDirectory + @"Safety.xml";
 
                 w.IncludeXmlComments(xmlPath);
             });
@@ -53,6 +69,11 @@ namespace Safety
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -65,8 +86,7 @@ namespace Safety
             //ConnectionString = Configuration.GetConnectionString("SecurityConnection");
             //ConnectionString = Configuration["ConnectionStrings:SecurityConnection"];
             ConnectionString = Configuration["Logging:ConnectionStrings:SecurityConnection"];
-
-
+            
             //Configuring Swagger
             app.UseSwagger();
             app.UseSwaggerUI( w =>
