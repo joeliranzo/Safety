@@ -94,19 +94,7 @@ namespace Safety.Controllers
                 .Where(w => membersByArea.Contains((int)w.Id));
         }
 
-        // GET api/users/GetMemberArea/747
-        /// <summary>
-        /// Devuelve el/las area/s de un miembro
-        /// </summary>
-        /// <returns></returns>
-        [Route("[action]/{idMember}")]
-        [HttpGet]
-        public IEnumerable<MemberArea> GetMemberAreaForMember(int idMember)
-        {
-            return context.MemberArea
-                .Where(w => w.Idmember == idMember)
-                .ToList();
-        }
+        
 
         // GET api/users/GetManagerForArea/747
         /// <summary>
