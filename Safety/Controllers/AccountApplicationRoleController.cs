@@ -33,7 +33,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idAcc}/{idApp}")]
         [HttpGet]
-        public AccountApplicationRole GetRoleByAccApp(int idAcc, int idApp)
+        public AccountApplicationRole GetRoleByAccApp(int? idAcc, int? idApp)
         {
             return context.AccountApplicationRole
                 .Where(w => w.Idacc == idAcc && w.Idapp == idApp)
@@ -48,7 +48,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idAcc}")]
         [HttpGet]
-        public AccountApplicationRole GetAllRolesForAcc(int idAcc)
+        public AccountApplicationRole GetAllRolesForAcc(int? idAcc)
         {
             return context.AccountApplicationRole
                 .Where(w => w.Idacc == idAcc)
@@ -64,7 +64,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idApp}")]
         [HttpGet]
-        public AccountApplicationRole GetAllRolesForApp(int idApp)
+        public AccountApplicationRole GetAllRolesForApp(int? idApp)
         {
             return context.AccountApplicationRole
                 .Where(w => w.Idapp == idApp)
@@ -102,7 +102,7 @@ namespace Safety.Controllers
         /// <param name="idApp"></param>
         /// <param name="updatedAar"></param>
         [HttpPut("{idAcc}/{idApp}")]
-        public void Put(int idAcc, int idApp, [FromBody]AccountApplicationRole updatedAar)
+        public void Put(int? idAcc, int? idApp, [FromBody]AccountApplicationRole updatedAar)
         {
             AccountApplicationRole aar = context.AccountApplicationRole
                 .Where(w => w.Idacc == idAcc && w.Idapp == idApp)
@@ -131,7 +131,7 @@ namespace Safety.Controllers
         /// <param name="idAcc"></param>
         /// <param name="idApp"></param>
         [HttpDelete("{idAcc}/{idApp}")]
-        public void Delete(int idAcc, int idApp)
+        public void Delete(int? idAcc, int? idApp)
         {
             AccountApplicationRole aar = context.AccountApplicationRole
                 .Where(w => w.Idacc == idAcc && w.Idapp == idApp)

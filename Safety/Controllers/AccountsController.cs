@@ -15,6 +15,31 @@ namespace Safety.Controllers
     [Route("api/[controller]")]
     public class AccountsController : BaseController
     {
+        /// <summary>
+        /// Con este metodo se puede verificar si un usuario y contraseña son correctos.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        //[Route("[action]/{username}/{password}")]
+        //[HttpGet]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public Account Login(string username, string password)
+        {
+            Account account =
+                context.Account.Where(w=>w.UserName == username).FirstOrDefault();
+
+            if (account != null)
+            {
+                if (account.UserName.ToLower().Trim() == username.ToLower().Trim() &&
+                    account.Password == MD5Hash.EncryptPassword(password))
+                {
+                    return account;
+                }
+            }
+            return null;
+        }
+
         // GET api/accounts
         /// <summary>
         /// Con este método se pueude obtener un listado de todas las cuentas.
@@ -36,7 +61,7 @@ namespace Safety.Controllers
         [Route("[action]/{id}")]
         [HttpGet]
         //[HttpGet("{id}")]
-        public Account GetById(int id)
+        public Account GetById(int? id)
         {
             return context.Account.Find(id);
         }
@@ -107,7 +132,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="newaccount"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Account newaccount)
+        public void Put(int? id, [FromBody]Account newaccount)
         {
             Account account = context.Account
                 .Find(id);
@@ -146,7 +171,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int? id)
         {
             Account account = context.Account
                 .Find(id);

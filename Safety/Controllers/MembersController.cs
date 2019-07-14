@@ -36,7 +36,7 @@ namespace Safety.Controllers
         [Route("[action]/{id}")]
         [HttpGet]
         //[HttpGet("{id}")]
-        public Member GetById(int id)
+        public Member GetById(int? id)
         {
             return context.Member.Find(id);
         }
@@ -64,7 +64,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idArea}")]
         [HttpGet]
-        public IEnumerable<Member> GetMembersByArea(int idArea)
+        public IEnumerable<Member> GetMembersByArea(int? idArea)
         {
             var membersByArea =
                 context.MemberArea
@@ -103,7 +103,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idArea}")]
         [HttpGet]
-        public Member GetManagerForArea(int idArea)
+        public Member GetManagerForArea(int? idArea)
         {
             var idMember =
                 context.MemberArea
@@ -146,7 +146,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="updatedUser"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Member updatedUser)
+        public void Put(int? id, [FromBody]Member updatedUser)
         {
             Member user = context.Member
                 .Find(id);
@@ -176,7 +176,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int? id)
         {
             Member user = context.Member
                 .Find(id);

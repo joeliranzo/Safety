@@ -32,7 +32,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{id}")]
         [HttpGet]
-        public Role GetById(int id)
+        public Role GetById(int? id)
         {
             return context.Role.Find(id);
         }
@@ -45,7 +45,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idApp}")]
         [HttpGet]
-        public IEnumerable<Role> GetByIdApp(int idApp)
+        public IEnumerable<Role> GetAllByIdApp(int? idApp)
         {
             return context.Role
                 .Where(w=> w.IdApp == idApp).ToList();
@@ -78,7 +78,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="updatedRole"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Role updatedRole)
+        public void Put(int? id, [FromBody]Role updatedRole)
         {
             Role role = context.Role
                 .Find(id);
@@ -106,7 +106,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int? id)
         {
             Role role = context.Role
                 .Find(id);
@@ -131,7 +131,7 @@ namespace Safety.Controllers
         /// <param name="idApp"></param>
         [Route("[action]/{idApp}")]
         [HttpDelete]
-        public void DeleteRolesByIdApp(int idApp)
+        public void DeleteRolesByIdApp(int? idApp)
         {
             List<Role> role = (from data in context.Role
                            where data.IdApp == idApp

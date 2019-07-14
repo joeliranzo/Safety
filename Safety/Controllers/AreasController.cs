@@ -32,7 +32,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{id}")]
         [HttpGet]
-        public Area GetById(int id)
+        public Area GetById(int? id)
         {
             return context.Area.Find(id);
         }
@@ -90,7 +90,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="updatedArea"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Area updatedArea)
+        public void Put(int? id, [FromBody]Area updatedArea)
         {
             Area area = context.Area
                 .Find(id);
@@ -117,7 +117,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int? id)
         {
             Area area = context.Area
                 .Find(id);

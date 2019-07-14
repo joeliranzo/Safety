@@ -32,7 +32,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{id}")]
         [HttpGet]
-        public Application GetById(int id)
+        public Application GetById(int? id)
         {
             return context.Application.Find(id);
         }
@@ -64,7 +64,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="updatedApp"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Application updatedApp)
+        public void Put(int? id, [FromBody]Application updatedApp)
         {
             Application app = context.Application
                 .Find(id);
@@ -91,7 +91,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int? id)
         {
             Application app = context.Application
                 .Find(id);

@@ -31,7 +31,7 @@ namespace Safety.Controllers
         /// <returns></returns>
         [Route("[action]/{idMember}")]
         [HttpGet]
-        public IEnumerable<MemberArea> GetMemberAreaForMember(int idMember)
+        public IEnumerable<MemberArea> GetMemberAreaForMember(int? idMember)
         {
             return context.MemberArea
                 .Where(w => w.Idmember == idMember)
@@ -64,7 +64,7 @@ namespace Safety.Controllers
         /// <param name="id"></param>
         /// <param name="updatedMemberArea"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]MemberArea updatedMemberArea)
+        public void Put(int? id, [FromBody]MemberArea updatedMemberArea)
         {
             MemberArea memberArea = context.MemberArea
                 .Find(id);
@@ -92,7 +92,7 @@ namespace Safety.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int? id)
         {
             MemberArea memberArea = context.MemberArea
                 .Find(id);
