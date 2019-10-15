@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Safety.Models;
 
@@ -13,6 +15,7 @@ namespace Safety.Controllers
     /// Aquí se gestionan todos las cuentas.
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AccountsController : BaseController
     {
         /// <summary>
@@ -42,7 +45,7 @@ namespace Safety.Controllers
 
         // GET api/accounts
         /// <summary>
-        /// Con este método se pueude obtener un listado de todas las cuentas.
+        /// Con este método se puede obtener un listado de todas las cuentas.
         /// </summary>
         /// <returns></returns>
         [HttpGet]

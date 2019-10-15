@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Safety.Models;
 
@@ -13,6 +15,7 @@ namespace Safety.Controllers
     /// Aquí se gestionan todos los usuarios.
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MembersController : BaseController
     {
         // GET api/users

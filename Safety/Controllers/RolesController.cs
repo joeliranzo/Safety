@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MoreLinq;
 using Safety.Models;
 
 namespace Safety.Controllers
@@ -11,6 +14,7 @@ namespace Safety.Controllers
     /// 
     /// </summary>
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class RolesController : BaseController
     {
         ///GET api/roles
@@ -35,6 +39,23 @@ namespace Safety.Controllers
         public Role GetById(int? id)
         {
             return context.Role.Find(id);
+        }
+
+        // GET api/roles/GetById/2
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="idApp"></param>
+        /// <returns></returns>
+        [Route("[action]/{idApp}")]
+        [HttpGet]
+        public Role GetMaxRoleForApp(int? idApp)
+        {
+            return context.Role
+                .Where(w=>w.IdApp == idApp)
+                .ToList()
+                .MaxBy(w=>w.Range)
+                .FirstOrDefault();
         }
 
         // GET api/roles/GetByIdApp/1
