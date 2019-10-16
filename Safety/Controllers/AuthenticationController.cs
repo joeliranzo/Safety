@@ -48,6 +48,7 @@ namespace Safety.Controllers
         /// Metodo contstructor para la Autenticacion.
         /// </summary>
         /// <param name="configuration"></param>
+        /// <param name="jwtSettings"></param>
         public AuthenticationController(IConfiguration configuration, JwtSettings jwtSettings)
         {
             _configuration = configuration;
@@ -82,7 +83,7 @@ namespace Safety.Controllers
             if (login.Account != null)
             {
                 //Se verifica que la cuenta este activa.
-                if (login.Account.Status > 0)
+                if (login.Account.Status > 0 && (login.Account.ExpirationDate ?? DateTime.MaxValue) >= DateTime.Now)
                 {
                     //En caso de que la cuenta exista se verifica que tenga acceso
                     //A la aplicacion requerida
@@ -107,7 +108,7 @@ namespace Safety.Controllers
                 return BuildToken(this.login);
             }
 
-            return BadRequest(ModelState);
+            return Unauthorized(); //BadRequest(ModelState);
         }
 
         private IActionResult BuildToken(LoginInfo login)
